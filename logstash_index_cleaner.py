@@ -138,7 +138,7 @@ def main():
 
         print 'Deleting index {0} because it was {1} older than cutoff.'.format(index_name, expiration)
 
-        deletion = connection.delete_index_if_exists(index_name)
+        deletion = Indices(connection).delete_index_if_exists(index_name)
         # ES returns a dict on the format {u'acknowledged': True, u'ok': True} on success.
         if deletion.get('ok'):
             print 'Successfully deleted index: {0}'.format(index_name)
