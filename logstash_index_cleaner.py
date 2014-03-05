@@ -22,6 +22,7 @@ import argparse
 from datetime import timedelta
 
 import pyes
+from pyes.managers import Indices
 
 
 __version__ = '0.1.1'
@@ -71,8 +72,7 @@ def find_expired_indices(connection, days_to_keep=None, hours_to_keep=None, sepa
     utc_now_time = time.time() + time.altzone
     days_cutoff = utc_now_time - days_to_keep * 24 * 60 * 60 if days_to_keep is not None else None
     hours_cutoff = utc_now_time - hours_to_keep * 60 * 60 if hours_to_keep is not None else None
-
-    for index_name in sorted(set(connection.get_indices().keys())):
+    for index_name in sorted(set(Indices(connection).get_indices().keys())):
         if not index_name.startswith(prefix):
             print >> out, 'Skipping index due to missing prefix {0}: {1}'.format(prefix, index_name)
             continue
